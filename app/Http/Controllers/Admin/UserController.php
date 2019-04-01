@@ -2,35 +2,22 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\Admin\UserRequest;
 use App\System\Models\User;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class UserController extends Controller
 {
-
-	public function login()
-	{
-		return view('login.loginform');
-	}
-
-	public function signin()
-	{
-		if(Auth::attempt(['email' => request('email'), 'password' => request('password')])) {
-			$role = Auth::user()->getAttributes();
-			if ($role["role"] == "admin") {
-				$user = Auth::user();
-				$success['token'] = $user->createToken('MyApp')->accessToken;
-				return redirect('/admin/home');
-				//response()->json(['success' => $success], 200);
-			} else {
-				return response()->json(['error' => 'Access denied'], 401);
-			}
-		} else {
-			return response()->json(['error'=>'Unauthorised'], 401);
-		}
-	}
+    /**
+     * Get the needed authorization credentials from the request.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return array
+     */
+    protected function credentials(Request $request)
+    {
+        return array_merge($request->only('email', 'password'), ['role' => 'admin']);
+    }
 
 	use SoftDeletes;
 

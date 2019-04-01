@@ -23,8 +23,8 @@ Route::prefix('admin')->group(function () {
 	Route::post('/store', 'Admin\UserController@store')->name('save')->middleware('auth');;
 	Route::get('/edit/{id?}', 'Admin\UserController@edit')->name('edit')->middleware('auth');;
 	Route::get('/delete/{id}', 'Admin\UserController@destroy')->name('delete')->middleware('auth');;
-	Route::get('/loginform', 'Admin\UserController@login')->name('loginform');
-	Route::post('/signin', 'Admin\UserController@signin')->name('signin');
+	Route::get('/loginform', 'Admin\LoginController@showLoginForm')->name('loginform');
+	Route::post('/signin', 'Admin\LoginController@login')->name('signin');
 
 });
 
