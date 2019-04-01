@@ -9,7 +9,7 @@
 
                     <div class="card-body">
                         <div>
-                            <a type="button" class="btn btn-info small" href="user/create">Add User</a>
+                            <a type="button" class="btn btn-info small" href="admin/create">Add User</a>
                         </div>
                         <div class="row">
                             <table class="table">
@@ -28,9 +28,9 @@
                                         <td>{{$user->email}}</td>
                                         <td>{{$user->role}}</td>
                                         <td>
-                                            <a type="button" class="btn btn-info small" href="/user/edit/{{$user->id}}">Edit</a>
+                                            <a type="button" class="btn btn-info small" href="/admin/edit/{{$user->id}}">Edit</a>
                                             <a type="button" class="btn btn-danger small"
-                                               href="/user/delete/{{$user->id}}">Delete</a>
+                                               href="/admin/delete/{{$user->id}}">Delete</a>
                                         </td>
                                     </tr>
                                 @endforeach

@@ -17,6 +17,11 @@
                 </div>
             </div>
         </div>
+        @auth
+            <div class="links">
+                <a href="{{ url('/admin/') }}">Go to Users</a>
+            </div>
+        @endauth
     </div>
 </div>
 

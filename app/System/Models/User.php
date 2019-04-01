@@ -14,6 +14,7 @@ class User extends Model
 		'name',
 		'email',
 		'password',
+		'token'
 	];
 
 	protected $dates = [
@@ -23,7 +24,6 @@ class User extends Model
 
 	protected $hidden = [
 		'password',
-		'role',
-		'token'
+		'role'
 	];
 }

@@ -22,7 +22,8 @@ class UserController extends Controller
 			if ($role["role"] == "admin") {
 				$user = Auth::user();
 				$success['token'] = $user->createToken('MyApp')->accessToken;
-				return response()->json(['success' => $success], 200);
+				return redirect('/admin/home');
+				//response()->json(['success' => $success], 200);
 			} else {
 				return response()->json(['error' => 'Access denied'], 401);
 			}
@@ -67,14 +68,16 @@ class UserController extends Controller
 	public function store(UserRequest $request)
 	{
 		$userData = $request->all();
+//		dd($userData);
 		if (empty($userData['id'])) {
 			$user = new user();
 		} else {
 			$user = user::find($userData['id']);
 		}
+		$userData['token'] = $userData['_token'];
 		$user->fill($userData);
 		$user->save();
-		return redirect('/user')->with('success', 'User has been added');
+		return redirect('/admin/')->with('success', 'User has been added');
 	}
 
 	/**
@@ -96,7 +99,7 @@ class UserController extends Controller
 	public function destroy(int $id)
 	{
 		user::find($id)->delete();
-		return redirect('/user')->with('success', 'User has been deleted');
+		return redirect('/admin/')->with('success', 'User has been deleted');
 	}
 
 
