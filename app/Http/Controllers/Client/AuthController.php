@@ -1,28 +1,34 @@
 <?php
 
-namespace App\Http\Controllers\API;
+namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
-use App\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator;
+use App\Http\Requests\AuthRequest;
 
-class UserController extends Controller
+
+class AuthController extends Controller
 {
 	/**
 	 * login api
 	 *
 	 * @return \Illuminate\Http\Response
 	 */
-	public function login()
+	public function login(AuthRequest $request)
 	{
-		if(Auth::attempt(['email' => request('email'), 'password' => request('password')])){
-			$user = Auth::user();
-			$success['token'] =  $user->createToken('MyApp')->accessToken;
-			return response()->json(['success' => $success], 200);
+        if(Auth::guard('web')->attempt(array_merge($request->only('email', 'password'), ['role' => 'client']))) {
+            $user = Auth::user();
+            $user->generateToken();
+			return response()->json(['data' => $user->getProfile()], 200);
 		} else {
-			return response()->json(['error'=>'Unauthorised'], 401);
+			return response()->json([
+			    'message' => 'The given data was invalid.',
+                'errors' => [
+                    'email' => [
+                        'These credentials do not match our records.'
+                    ]
+                ]
+            ], 422);
 		}
 	}
 	/**

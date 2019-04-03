@@ -1,7 +1,5 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 use App\System\Models\User;
 
@@ -30,6 +28,9 @@ class CreateAdminUser extends Migration
      */
     public function down()
     {
-        $user = User::find();
+        $user = User::where('email', $this->adminEmail)->first();
+        if ($user instanceof User) {
+            $user->delete();
+        }
     }
 }

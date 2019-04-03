@@ -3,14 +3,13 @@
 namespace App\System\Models;
 
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Laravel\Passport\HasApiTokens;
+use Illuminate\Support\Str;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, Notifiable;
+    use Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -42,5 +41,22 @@ class User extends Authenticatable
     public function setPasswordAttribute($password)
     {
         $this->attributes['password'] = Hash::make($password);
+    }
+
+    public function generateToken()
+    {
+        $this->token = hash('sha256', Str::random(60));
+        $this->save();
+    }
+
+    public function getProfile():array
+    {
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'email' => $this->email,
+            'role' => $this->role,
+            'token' => $this->token,
+        ];
     }
 }
