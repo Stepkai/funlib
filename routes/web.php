@@ -12,6 +12,7 @@
 */
 
 Route::get('/', function () {
+   // App\Jobs\UrlZadacha::dispatch("TEST");//->delay(now()->addSeconds(10));
 	return view('welcome');
 });
 
@@ -28,3 +29,8 @@ Route::prefix('admin')->group(function () {
     Route::post('/logout', 'Admin\AuthController@logout')->name('logout');
 
 });
+
+//    Route::get('page/create', 'Client\PagesController@create')->name('createUrl');
+    Route::post('page/store', 'Client\PagesController@store')->name('storeUrl');
+//    Route::get('page/{id?}', 'Client\PagesController@take')->name('pageId');
+//    Route::get('page/send/{id?}', 'Client\PagesController@send')->name('sendId');
